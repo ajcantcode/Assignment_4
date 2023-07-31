@@ -1,6 +1,7 @@
-#include <time.h>
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <string.h>
 
 int extraMemoryAllocated;
 
@@ -52,10 +53,10 @@ void mergeSort(int pData[], int l, int r)
 	if (l < r) {
         int m = l + (r - l) / 2;
   
-        mergeSort(arr, l, m);
-        mergeSort(arr, m + 1, r);
+        mergeSort(pData, l, m);
+        mergeSort(pData, m + 1, r);
   
-        merge(arr, l, m, r);
+        merge(pData, l, m, r);
     }
 }
 
@@ -65,14 +66,14 @@ void insertionSort(int* pData, int n)
 {
 	int i, key, j;
     for (i = 1; i < n; i++) {
-        key = arr[i];
+        key = pData[i];
         j = i - 1;
   
-        while (j >= 0 && arr[j] > key) {
-            arr[j + 1] = arr[j];
+        while (j >= 0 && pData[j] > key) {
+            pData[j + 1] = pData[j];
             j = j - 1;
         }
-        arr[j + 1] = key;
+        pData[j + 1] = key;
     }
 }
 
@@ -83,10 +84,10 @@ void bubbleSort(int* pData, int n)
 	int i, j;
     	for (i = 0; i < n - 1; i++) {
         	for (j = 0; j < n - i - 1; j++) {
-            		if (arr[j] > arr[j + 1]) {
-                int temp = arr[j];
-                arr[j] = arr[j + 1];
-                arr[j + 1] = temp;
+            		if (pData[j] > pData[j + 1]) {
+                int temp = pData[j];
+                pData[j] = pData[j + 1];
+                pData[j + 1] = temp;
             }
         }
     }
@@ -100,12 +101,12 @@ void selectionSort(int* pData, int n)
     	for (i = 0; i < n - 1; i++) {
         	min_idx = i;
         	for (j = i + 1; j < n; j++) {
-            		if (arr[j] < arr[min_idx])
+            		if (pData[j] < pData[min_idx])
                 	min_idx = j;
         }
-        int temp = arr[min_idx];
-        arr[min_idx] = arr[i];
-        arr[i] = temp;
+        int temp = pData[min_idx];
+        pData[min_idx] = pData[i];
+        pData[i] = temp;
         extraMemoryAllocated += 2 * sizeof(int);
     }
 }
