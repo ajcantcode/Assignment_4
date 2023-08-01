@@ -7,7 +7,7 @@ int extraMemoryAllocated;
 
 // implement merge sort
 // extraMemoryAllocated counts bytes of extra memory allocated
-void merge(int arr[], int l, int m, int r)
+void merge(int pData[], int l, int m, int r)
 {
     int i, j, k;
     int n1 = m - l + 1;
@@ -16,33 +16,33 @@ void merge(int arr[], int l, int m, int r)
     int L[n1], R[n2];
   
     for (i = 0; i < n1; i++)
-        L[i] = arr[l + i];
+        L[i] = pData[l + i];
     for (j = 0; j < n2; j++)
-        R[j] = arr[m + 1 + j];
+        R[j] = pData[m + 1 + j];
   
     i = 0;
     j = 0;
     k = l;
     while (i < n1 && j < n2) {
         if (L[i] <= R[j]) {
-            arr[k] = L[i];
+            pData[k] = L[i];
             i++;
         }
         else {
-            arr[k] = R[j];
+            pData[k] = R[j];
             j++;
         }
         k++;
     }
   
     while (i < n1) {
-        arr[k] = L[i];
+        pData[k] = L[i];
         i++;
         k++;
     }
   
     while (j < n2) {
-        arr[k] = R[j];
+        pData[k] = R[j];
         j++;
         k++;
     }
@@ -82,15 +82,13 @@ void insertionSort(int* pData, int n)
 void bubbleSort(int* pData, int n)
 {
 	int i, j;
-    	for (i = 0; i < n - 1; i++) {
-        	for (j = 0; j < n - i - 1; j++) {
+    	for (i = 0; i < n - 1; i++)
+        	for (j = 0; j < n - i - 1; j++)
             		if (pData[j] > pData[j + 1]) {
-                int temp = pData[j];
-                pData[j] = pData[j + 1];
-                pData[j + 1] = temp;
-            }
-        }
-    }
+                		int temp = pData[j];
+                		pData[j] = pData[j + 1];
+                		pData[j + 1] = temp;
+            		}
 }
 
 // implement selection sort
@@ -100,15 +98,15 @@ void selectionSort(int* pData, int n)
 	int i, j, min_idx;
     	for (i = 0; i < n - 1; i++) {
         	min_idx = i;
-        	for (j = i + 1; j < n; j++) {
+        	for (j = i + 1; j < n; j++)
             		if (pData[j] < pData[min_idx])
                 	min_idx = j;
-        }
-        int temp = pData[min_idx];
-        pData[min_idx] = pData[i];
-        pData[i] = temp;
-        extraMemoryAllocated += 2 * sizeof(int);
-    }
+        
+			int temp = pData[min_idx];
+			pData[min_idx] = pData[i];
+			pData[i] = temp;
+			extraMemoryAllocated += 2 * sizeof(int);
+    	}
 }
 
 // parses input file to an integer array
@@ -123,8 +121,23 @@ int parseData(char *inputFileName, int **ppData)
 		fscanf(inFile,"%d\n",&dataSz);
 		*ppData = (int *)malloc(sizeof(int) * dataSz);
 		// Implement parse data block
+		if (inFile)
+		{
+			fscanf(inFile, "%d\n", &dataSz);
+			*ppData = (int *)malloc(sizeof(int) * dataSz);
+			if (*ppData)
+			{
+				for (int i = 0; i < dataSz; ++i)
+				{
+					fscanf(inFile, "%d\n", &((*ppData)[i]));
+				}
+				
+			}
+			
+		}
+		
 	}
-	
+	fclose(inFile);
 	return dataSz;
 }
 
